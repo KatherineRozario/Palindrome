@@ -1,60 +1,51 @@
 
-import java.util.Stack;
-
 public class PalindromeCheckerApp {
 
     public static void main(String[] args) {
-        String input = "radar";
+        String input = "A man a plan a canal Panama".replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
 
-        // We can dynamically choose which "strategy" to use
-        // Here we use the Stack-based strategy
-        PalindromeStrategy strategy = new StackStrategy();
+        // Instantiate the strategy we want to test
+        PalindromeStrategy stackStrategy = new StackStrategy();
 
-        // Execute the strategy
-        boolean result = strategy.check(input);
+        // 1. Capture start time in nanoseconds
+        long startTime = System.nanoTime();
 
-        System.out.println("Input: " + input);
-        System.out.println("Strategy Used: StackStrategy");
-        System.out.println("Is Palindrome? : " + result);
+        // 2. Execute the algorithm
+        boolean result = stackStrategy.check(input);
+
+        // 3. Capture end time
+        long endTime = System.nanoTime();
+
+        // 4. Calculate duration
+        long duration = (endTime - startTime);
+
+        // Display benchmarking results
+        System.out.println("--- Benchmarking Result ---");
+        System.out.println("Algorithm : Stack-Based Strategy");
+        System.out.println("Input     : " + input);
+        System.out.println("Result    : " + (result ? "Palindrome" : "Not Palindrome"));
+        System.out.println("Execution Time: " + duration + " nanoseconds");
     }
 }
 
-/**
- * INTERFACE - PalindromeStrategy
- * Defines a contract for all palindrome checking algorithms.
+/** * Reusing the Interface from UC12
  */
 interface PalindromeStrategy {
     boolean check(String input);
 }
 
-/**
- * CLASS - StackStrategy
- * Provides a Stack-based implementation of the interface.
+/** * Reusing StackStrategy from UC12
  */
 class StackStrategy implements PalindromeStrategy {
-
-    /**
-     * Implements palindrome validation using Stack.
-     * @param input String to validate
-     * @return true if palindrome, false otherwise
-     */
     @Override
     public boolean check(String input) {
-        // Create a stack to store characters
-        Stack<Character> stack = new Stack<>();
-
-        // Push each character of the input string onto the stack
+        java.util.Stack<Character> stack = new java.util.Stack<>();
         for (char c : input.toCharArray()) {
             stack.push(c);
         }
-
-        // Compare characters by popping from the stack
         for (char c : input.toCharArray()) {
-            if (c != stack.pop()) {
-                return false;
-            }
+            if (c != stack.pop()) return false;
         }
-
         return true;
     }
 }
