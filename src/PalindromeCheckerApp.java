@@ -1,40 +1,37 @@
-import java.util.LinkedList;
 
 public class PalindromeCheckerApp {
 
     /**
-     * Application entry point for UC8.
+     * Application entry point for UC9.
      * * @param args Command-line arguments
      */
     public static void main(String[] args) {
+        String input = "madam";
 
-        // Define the input string
-        String input = "level";
+        // Start recursion with the first and last index
+        boolean isPalindrome = check(input, 0, input.length() - 1);
 
-        // Create a LinkedList to store characters
-        LinkedList<Character> list = new LinkedList<>();
+        // Display result
+        if (isPalindrome) {
+            System.out.println(input + " is a palindrome.");
+        } else {
+            System.out.println(input + " is not a palindrome.");
+        }
+    }
 
-        // Add each character to the linked list
-        for (char c : input.toCharArray()) {
-            list.add(c);
+
+    private static boolean check(String s, int start, int end) {
+        // Base Condition: If pointers cross or meet, all matches were successful
+        if (start >= end) {
+            return true;
         }
 
-        // Flag to track palindrome state
-        boolean isPalindrome = true;
-
-        // Compare until only one or zero elements remain
-        // This follows the logic provided in your hint
-        while (list.size() > 1) {
-            // In a LinkedList, removeFirst and removeLast
-            // allow us to check symmetry from the outside in.
-            if (list.removeFirst() != list.removeLast()) {
-                isPalindrome = false;
-                break;
-            }
+        // Compare characters at current outer positions
+        if (s.charAt(start) != s.charAt(end)) {
+            return false;
         }
 
-        // Print result
-        System.out.println("Input : " + input);
-        System.out.println("Is Palindrome? : " + isPalindrome);
+        // Recursive call: Move inward by incrementing start and decrementing end
+        return check(s, start + 1, end - 1);
     }
 }
