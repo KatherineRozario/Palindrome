@@ -1,35 +1,33 @@
-import java.util.ArrayDeque;
-import java.util.Deque;
-
+import java.util.LinkedList;
 
 public class PalindromeCheckerApp {
 
     /**
-     * Application entry point for UC7.
+     * Application entry point for UC8.
      * * @param args Command-line arguments
      */
     public static void main(String[] args) {
 
         // Define the input string
-        String input = "refer";
+        String input = "level";
 
-        // Create a Deque to store characters
-        // ArrayDeque is a highly efficient implementation of the Deque interface
-        Deque<Character> deque = new ArrayDeque<>();
+        // Create a LinkedList to store characters
+        LinkedList<Character> list = new LinkedList<>();
 
-        // Add each character to the deque
+        // Add each character to the linked list
         for (char c : input.toCharArray()) {
-            deque.addLast(c);
+            list.add(c);
         }
 
-        // Flag to track palindrome result
+        // Flag to track palindrome state
         boolean isPalindrome = true;
 
-        // Continue comparison while more than one element exists
-        // If 0 or 1 element is left, it's naturally a palindrome
-        while (deque.size() > 1) {
-            // Remove from both ends and compare
-            if (deque.removeFirst() != deque.removeLast()) {
+        // Compare until only one or zero elements remain
+        // This follows the logic provided in your hint
+        while (list.size() > 1) {
+            // In a LinkedList, removeFirst and removeLast
+            // allow us to check symmetry from the outside in.
+            if (list.removeFirst() != list.removeLast()) {
                 isPalindrome = false;
                 break;
             }
