@@ -2,36 +2,33 @@
 public class PalindromeCheckerApp {
 
     /**
-     * Application entry point for UC9.
+     * Application entry point for UC10.
      * * @param args Command-line arguments
      */
     public static void main(String[] args) {
-        String input = "madam";
 
-        // Start recursion with the first and last index
-        boolean isPalindrome = check(input, 0, input.length() - 1);
+        String input = "A man a plan a canal Panama";
 
-        // Display result
-        if (isPalindrome) {
-            System.out.println(input + " is a palindrome.");
-        } else {
-            System.out.println(input + " is not a palindrome.");
-        }
-    }
+        // 1. Normalization Step
+        // Use replaceAll with regex to remove anything that isn't a letter or number
+        // Then convert the whole thing to lowercase
+        String normalized = input.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
 
+        boolean isPalindrome = true;
 
-    private static boolean check(String s, int start, int end) {
-        // Base Condition: If pointers cross or meet, all matches were successful
-        if (start >= end) {
-            return true;
-        }
+        // 2. Compare characters from both ends (using logic from UC2/UC3 hint)
+        for (int i = 0; i < normalized.length() / 2; i++) {
 
-        // Compare characters at current outer positions
-        if (s.charAt(start) != s.charAt(end)) {
-            return false;
+            // Compare symmetric characters
+            if (normalized.charAt(i) != normalized.charAt(normalized.length() - 1 - i)) {
+                isPalindrome = false;
+                break;
+            }
         }
 
-        // Recursive call: Move inward by incrementing start and decrementing end
-        return check(s, start + 1, end - 1);
+        // 3. Print result
+        System.out.println("Original Input : " + input);
+        System.out.println("Normalized     : " + normalized);
+        System.out.println("Is Palindrome? : " + isPalindrome);
     }
 }
