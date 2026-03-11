@@ -1,51 +1,60 @@
 
+import java.util.Stack;
+
 public class PalindromeCheckerApp {
 
-    /**
-     * Application entry point for UC11.
-     * * @param args Command-line arguments
-     */
     public static void main(String[] args) {
-        // Define the input string
         String input = "radar";
 
-        // Create an instance (Object) of the service class
-        PalindromeService service = new PalindromeService();
+        // We can dynamically choose which "strategy" to use
+        // Here we use the Stack-based strategy
+        PalindromeStrategy strategy = new StackStrategy();
 
-        // Use the object to check for a palindrome
-        boolean isPalindrome = service.checkPalindrome(input);
+        // Execute the strategy
+        boolean result = strategy.check(input);
 
-        // Display the result
-        System.out.println("Input : " + input);
-        System.out.println("Is Palindrome? : " + isPalindrome);
+        System.out.println("Input: " + input);
+        System.out.println("Strategy Used: StackStrategy");
+        System.out.println("Is Palindrome? : " + result);
     }
 }
 
 /**
- * Service class that contains palindrome logic.
+ * INTERFACE - PalindromeStrategy
+ * Defines a contract for all palindrome checking algorithms.
  */
-class PalindromeService {
+interface PalindromeStrategy {
+    boolean check(String input);
+}
+
+/**
+ * CLASS - StackStrategy
+ * Provides a Stack-based implementation of the interface.
+ */
+class StackStrategy implements PalindromeStrategy {
 
     /**
-     * Checks whether the input string is a palindrome.
-     * * @param input Input string
+     * Implements palindrome validation using Stack.
+     * @param input String to validate
      * @return true if palindrome, false otherwise
      */
-    public boolean checkPalindrome(String input) {
+    @Override
+    public boolean check(String input) {
+        // Create a stack to store characters
+        Stack<Character> stack = new Stack<>();
 
-        // Initialize pointers as per the hint
-        int start = 0;
-        int end = input.length() - 1;
-
-        // Compare characters moving inward
-        while (start < end) {
-            if (input.charAt(start) != input.charAt(end)) {
-                return false; // Not a palindrome
-            }
-            start++;
-            end--;
+        // Push each character of the input string onto the stack
+        for (char c : input.toCharArray()) {
+            stack.push(c);
         }
 
-        return true; // Is a palindrome
+        // Compare characters by popping from the stack
+        for (char c : input.toCharArray()) {
+            if (c != stack.pop()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
