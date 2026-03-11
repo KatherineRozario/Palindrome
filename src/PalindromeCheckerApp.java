@@ -1,26 +1,29 @@
+
 public class PalindromeCheckerApp {
 
+    /**
+     * Application entry point for UC3.
+     * * @param args Command-line arguments
+     */
     public static void main(String[] args) {
 
-        // Hardcoded string
+        // Hardcoded string to check
         String input = "madam";
+        String reversed = "";
 
-        boolean isPalindrome = true;
-
-        // Loop only till half of the string length
-        for (int i = 0; i < input.length() / 2; i++) {
-
-            if (input.charAt(i) != input.charAt(input.length() - 1 - i)) {
-                isPalindrome = false;
-                break;
-            }
+        // Iterate from the last character to the first (as per hint)
+        // We use String concatenation (+) to build the reversed string
+        for (int i = input.length() - 1; i >= 0; i--) {
+            reversed += input.charAt(i);
         }
 
-        // Print result
-        if (isPalindrome) {
+        // Compare the original and reversed strings using .equals()
+        // Note: Using == would compare memory references, not content.
+        if (input.equals(reversed)) {
             System.out.println(input + " is a palindrome.");
         } else {
             System.out.println(input + " is not a palindrome.");
         }
+
     }
 }
